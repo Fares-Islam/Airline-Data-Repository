@@ -1,31 +1,3 @@
-// import { Button } from "@mui/material";
-// import SearchFlights from "./searchFlights";
-// import { UseContext } from "./context";
-
-// function SearchButton() {
-//   const { selectedOption } = UseContext(); 
-
-//   return (
-//     <>
-//       <Button
-//         name="searchbutton"
-//         sx={{
-//           backgroundImage:
-//             "linear-gradient(to right, rgb(51, 51, 66), rgb(59, 65, 71))",
-//           height: "36px",
-//           color: "#212225",
-//           m: 1,
-//         }}
-//         onClick={() => SearchFlights(selectedOption)}
-//       >
-//         Search
-//       </Button>
-//     </>
-//   );
-// }
-
-// export default SearchButton;
-
 import { Button } from "@mui/material";
 
 type Props = {

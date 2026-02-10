@@ -1,28 +1,3 @@
-// import { Input } from "@mui/material";
-
-// function IataSearchBar() {
-
-//   return (
-//     <>
-//       <Input
-//         placeholder="iata"
-//         name="iatainput"
-//         sx={{
-//           backgroundImage:
-//             "linear-gradient(to right, rgb(51, 51, 66), rgb(59, 65, 71))",
-//           height: "36px",
-//           color: "#212225",
-//           m: 1,
-//           width: "40px"
-//         }}
-//         inputProps={{ maxLength: 3 }}
-//       />
-//     </>
-//   );
-// }
-
-// export default IataSearchBar;
-
 import { Input } from "@mui/material";
 
 type Props = {

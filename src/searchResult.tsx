@@ -1,25 +1,3 @@
-// import { Card, CardContent, Typography } from "@mui/material";
-
-// function SearchResult() {
-//   return (
-//     <>
-//       <template>
-//         <Card className="searchresult" sx={{ bgcolor: "#1f1f22", m: 1 }}>
-//           <CardContent>
-//             <Typography variant="h4" component="div">
-//               title
-//             </Typography>
-//             <Typography variant="body2" sx={{ whiteSpace: "pre-wrap" }}>
-//               paragraph
-//             </Typography>
-//           </CardContent>
-//         </Card>
-//       </template>
-//     </>
-//   );
-// }
-
-// export default SearchResult;
 import { Box, Paper, Typography, Divider, Stack } from "@mui/material";
 
 type Props = {
