@@ -1,4 +1,4 @@
-import iataCodesJson from "./assets/iataCodes.json"; // https://github.com/mwgg/Airports
+import iataCodesJson from "./assets/iataCodes.json";
 
 export type FlightResult = {
   from: string;
@@ -10,9 +10,6 @@ export type FlightResult = {
   travelClass: string;
 };
 
-const formatDate = (value: string) =>
-  `${value.slice(6, 10)}-${value.slice(0, 2)}-${value.slice(3, 5)}`;
-
 export async function searchFlights(
   selectedOption: string,
   fromIata: string,
@@ -20,26 +17,39 @@ export async function searchFlights(
   outboundDate: string,
   returnDate?: string,
 ): Promise<FlightResult[]> {
-  const apiKey = import.meta.env.VITE_API_KEY;
 
   const type = selectedOption === "Round trip" ? 1 : 2;
 
-  const url =
-    `/api-serp/search.json?api_key=${apiKey}` +
-    `&type=${type}&engine=google_flights` +
-    `&departure_id=${fromIata}&arrival_id=${toIata}` +
-    `&outbound_date=${formatDate(outboundDate)}` +
-    (type === 1 && returnDate
-      ? `&return_date=${formatDate(returnDate)}`
-      : "") +
-    `&currency=USD`;
+  const params = new URLSearchParams({
+    type: String(type),
+    departure_id: fromIata,
+    arrival_id: toIata,
+    outbound_date: outboundDate,
+    currency: "USD",
+  });
+
+  if (type === 1 && returnDate) {
+    params.append("return_date", returnDate);
+  }
+
+  const url = `https://airline-data-repository.vercel.app/api/search?${params.toString()}`;
 
   const res = await fetch(url);
+
+  if (!res.ok) {
+    const text = await res.text();
+    console.error("API failed:", text);
+    throw new Error("API request failed");
+  }
+
   const data = await res.json();
 
-  if (
-    data.search_information?.flights_results_state === "Fully empty"
-  ) {
+  if (data.error) {
+    console.error("Server error:", data.error);
+    throw new Error(data.error);
+  }
+
+  if (data.search_information?.flights_results_state === "Fully empty") {
     return [];
   }
 
