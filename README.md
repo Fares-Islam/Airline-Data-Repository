@@ -13,6 +13,7 @@ Simple flight data search website focused on api usage
 ## Features
 - Serpapi api usage
 - Material UI
+- Vercel backend server
 ## What I Learned
 - Solutions for some bugs
 - API handling
