@@ -1,4 +1,4 @@
-# airline data repository
+# Airline Data Repository
 Simple flight data search website focused on api usage
 
 ## Tech Stack
