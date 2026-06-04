@@ -20,8 +20,8 @@ Simple flight data search website focused on api usage
 - More on Data Manipulation
 ## Running Locally
 Go to https://serpapi.com, make a free account, and copy the api key, then:
+- cd root
 - npm install
-- cd server
 - vercel login (then make an account if needed)
 - vercel env add anyName (then enter your api key)
 - vercel --prod (as for the questions it asks: yourname's projects, no, anyName, ./, no, no)
