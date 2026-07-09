@@ -35,7 +35,7 @@ function SearchMode() {
         >
           One way
         </MenuItem>
-        <MenuItem
+        {/* <MenuItem
           value="Round trip"
           sx={{
             bgcolor: "#222427",
@@ -49,7 +49,7 @@ function SearchMode() {
           }}
         >
           Round trip
-        </MenuItem>
+        </MenuItem> */}
       </Select>
     </>
   );

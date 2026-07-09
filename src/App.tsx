@@ -27,7 +27,6 @@ function App() {
     if (!from || !to || !date1) return;
 
     setLoading(true);
-    setHasSearched(true);
 
     const outboundDate =
       date1.slice(6, 10) + "-" + date1.slice(0, 2) + "-" + date1.slice(3, 5);
@@ -36,16 +35,17 @@ function App() {
 
     // const type = selectedOption === "One way" ? 2 : 1;
 
-const results = await searchFlights(
-  selectedOption,
-  from,
-  to,
-  outboundDate,
-  returnDate
-);
+    const results = await searchFlights(
+      selectedOption,
+      from,
+      to,
+      outboundDate,
+      returnDate
+    );
 
-setResults(results);
+    setResults(results);
     setLoading(false);
+    setHasSearched(true);
   };
 
   return (

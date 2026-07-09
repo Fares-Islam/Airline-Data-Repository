@@ -6,7 +6,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   res.setHeader("Access-Control-Allow-Headers", "*");
   res.setHeader(
     "Access-Control-Allow-Origin",
-    "https://airline-data-repository.web.app",
+    `${process.env.VERCEL_URL}`,
   );
 
   if (req.method === "OPTIONS") {
@@ -27,7 +27,13 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       return res.status(400).json({ error: "Missing parameters" });
     }
 
-    const apiKey = process.env.serpapiKey;
+    const apiKey = process.env.SerpAPIKey;
+
+    if (!apiKey) {
+    return res.status(500).json({
+        error: "Server configuration error.",
+    });
+}
 
     const params = new URLSearchParams({
       api_key: apiKey!,
@@ -43,11 +49,17 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       params.append("return_date", String(return_date));
     }
 
-    const response = await fetch(
+    const serpAPIRes = await fetch(
       `https://serpapi.com/search.json?${params.toString()}`,
     );
 
-    const data = await response.json();
+    if (!serpAPIRes.ok) {
+    return res.status(serpAPIRes.status).json({
+        error: "Unable to contact SerpApi.",
+    });
+}
+
+    const data = await serpAPIRes.json();
 
     return res.status(200).json(data);
   } catch (error) {

@@ -1,4 +1,5 @@
 import iataCodesJson from "./assets/iataCodes.json";
+// NodeJS Process import removed: use global `process` provided by Node runtime
 
 export type FlightResult = {
   from: string;
@@ -17,7 +18,6 @@ export async function searchFlights(
   outboundDate: string,
   returnDate?: string,
 ): Promise<FlightResult[]> {
-
   const type = selectedOption === "Round trip" ? 1 : 2;
 
   const params = new URLSearchParams({
@@ -32,8 +32,7 @@ export async function searchFlights(
     params.append("return_date", returnDate);
   }
 
-  const url = `https://airline-data-repository.vercel.app/api/search?${params.toString()}`;
-
+  const url = `/api/search?${params.toString()}`;
   const res = await fetch(url);
 
   if (!res.ok) {
@@ -44,7 +43,11 @@ export async function searchFlights(
 
   const data = await res.json();
 
-  if (data.error) {
+  if (
+    data.error &&
+    String(data.error) !==
+      "Google Flights hasn't returned any results for this query."
+  ) {
     console.error("Server error:", data.error);
     throw new Error(data.error);
   }
