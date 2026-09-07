@@ -4,10 +4,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   // Always set CORS headers FIRST
   res.setHeader("Access-Control-Allow-Methods", "GET,OPTIONS");
   res.setHeader("Access-Control-Allow-Headers", "*");
-  res.setHeader(
-    "Access-Control-Allow-Origin",
-    `${process.env.VERCEL_URL}`,
-  );
+  res.setHeader("Access-Control-Allow-Origin", `${process.env.VERCEL_URL}`);
 
   if (req.method === "OPTIONS") {
     return res.status(200).end();
@@ -24,16 +21,18 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     } = req.query;
 
     if (!type || !departure_id || !arrival_id || !outbound_date) {
+      console.error("Missing parameters.");
       return res.status(400).json({ error: "Missing parameters" });
     }
 
     const apiKey = process.env.SerpAPIKey;
 
     if (!apiKey) {
-    return res.status(500).json({
-        error: "Server configuration error.",
-    });
-}
+      console.error("SerpAPIKey environment variable is undefined.");
+      return res.status(500).json({
+        error: "SerpAPIKey environment variable is undefined.",
+      });
+    }
 
     const params = new URLSearchParams({
       api_key: apiKey!,
@@ -43,6 +42,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       arrival_id: String(arrival_id),
       outbound_date: String(outbound_date),
       currency: String(currency || "USD"),
+      deep_search: "true",
     });
 
     if (return_date) {
@@ -54,10 +54,12 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     );
 
     if (!serpAPIRes.ok) {
-    return res.status(serpAPIRes.status).json({
+      console.error("Unable to contact SerpApi.");
+      console.log("SerpApi response:", await serpAPIRes.text());
+      return res.status(serpAPIRes.status).json({
         error: "Unable to contact SerpApi.",
-    });
-}
+      });
+    }
 
     const data = await serpAPIRes.json();
 
